@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить человека</title>
+</head>
+<body>
+<div th:include="fragments/header.html :: header"></div>
+<div style="padding: 10px">
+    <h3>Редактировать читателя</h3>
+    <form th:method="patch" th:action="@{/people/{id}/edit(id=${person.getId()})}" th:object="${person}">
+        <table>
+            <tr>
+                <td>Введите ФИО:</td>
+                <td><input th:field="*{name}" type="text"></td>
+            </tr>
+            <tr>
+                <td>Введите год:</td>
+                <td><input th:field="*{year}" type="text"></td>
+            </tr>
+        </table>
+        <div style="color: darkred;">
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+            <span th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
+        </div>
+        <input type="submit" value="Сохранить">
+    </form>
+</div>
+
+<div th:include="fragments/footer.html :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Книги</title>
+</head>
+<body>
+<div th:include="fragments/header.html :: header"></div>
+
+<div style="padding: 10px">
+    <div><h4>КНИГИ:</h4></div>
+    <div style="padding: 2px;" th:each="book : ${books}">
+        <a th:href="@{/books/{id}(id=${book.getId()})}"
+           th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYear()}"></a>
+    </div>
+</div>
+<div style="padding: 10px">Страницы:
+    <a th:each="page : ${#numbers.sequence( 0, (booksCount - 1)/booksPerPage)}" th:text="${ page + 1 }"
+        th:href="@{/books?page={page}&books_per_page={booksPerPage}&sort_by_year={sortByYear}
+        (page=${page},booksPerPage=${booksPerPage},sortByYear=${sortByYear})}"
+        style="padding-right: 10px"></a>
+</div>
+<div style="padding: 10px">
+    Выводить по: <a th:href="@{/books?page=0&books_per_page=3&sort_by_year={sortByYear}(sortByYear=${sortByYear})}">3</a> |
+    <a th:href="@{/books?page=0&books_per_page=6&sort_by_year={sortByYear}(sortByYear=${sortByYear})}">6</a>
+    <br/>
+    Сортировато по: <a th:href="@{/books?page={page}&books_per_page={booksPerPage}&sort_by_year={sortByYear}
+        (page=${currentPage},booksPerPage=${booksPerPage},sortByYear=true)}">году</a> |
+    <a th:href="@{/books?page={page}&books_per_page={booksPerPage}&sort_by_year={sortByYear}
+        (page=${currentPage},booksPerPage=${booksPerPage},sortByYear=false)}">названию</a>
+</div>
+
+<div th:include="fragments/footer.html :: footer"></div>
+</body>
+</html>

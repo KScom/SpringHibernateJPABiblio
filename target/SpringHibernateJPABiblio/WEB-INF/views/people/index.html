@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Читатели</title>
+</head>
+<body>
+<div th:include="fragments/header.html :: header"></div>
+
+<div style="padding: 10px">
+    <div><h4>ЧИТАТЕЛИ:</h4></div>
+    <div style="padding: 2px;" th:each="person : ${people}">
+        <a th:href="@{/people/{id}(id=${person.getId()})}"
+           th:text="${person.getName() + ', ' + person.getYear()}"></a>
+    </div>
+</div>
+<div style="padding: 10px">Страницы:
+    <a th:each="page : ${#numbers.sequence( 0, (peopleCount - 1)/peoplePerPage)}" th:text="${ page + 1 }"
+       th:href="@{/people?page={page}&people_per_page={peoplePerPage}&sort_by_year={sortByYear}
+        (page=${page},peoplePerPage=${peoplePerPage},sortByYear=${sortByYear})}"
+       style="padding-right: 10px"></a>
+</div>
+<div style="padding: 10px">
+    Выводить по: <a th:href="@{/people?page=0&people_per_page=3&sort_by_year={sortByYear}(sortByYear=${sortByYear})}">3</a> |
+    <a th:href="@{/people?page=0&people_per_page=6&sort_by_year={sortByYear}(sortByYear=${sortByYear})}">6</a>
+    <br/>
+    Сортировато по: <a th:href="@{/people?page={page}&people_per_page={peoplePerPage}&sort_by_year={sortByYear}
+        (page=${currentPage},peoplePerPage=${peoplePerPage},sortByYear=true)}">году</a> |
+    <a th:href="@{/people?page={page}&people_per_page={peoplePerPage}&sort_by_year={sortByYear}
+        (page=${currentPage},peoplePerPage=${peoplePerPage},sortByYear=false)}">названию</a>
+</div>
+<div th:include="fragments/footer.html :: footer"></div>
+</body>
+</html>
